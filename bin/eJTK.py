@@ -21,21 +21,15 @@ import numpy as np
 import argparse
 import os.path
 
-try:
-    from accessories import get_waveform_list as a_get_waveform_list
-except ImportError:
-    print 'Did you run python setup.py build_ext --inplace in the bin directory?'
-    raise
-from accessories import make_references as a_make_references
-from accessories import kt ### this is kendall tau
-from accessories import get_matches as a_get_matches
-from accessories import pick_best_match as a_pick_best_match
-from accessories import get_best_match as a_get_best_match
-#from operator import itemgetter
-#import sys
-#import itertools as it
-#import time
-#from scipy.stats import norm
+# try:
+#     from accessories import get_waveform_list as a_get_waveform_list
+# except ImportError:
+#     print 'Did you run python setup.py build_ext --inplace in the bin directory?'
+#     raise
+from py_accessories import get_waveform_list as a_get_waveform_list
+from py_accessories import make_references as a_make_references
+from py_accessories import kt ### this is kendall tau
+from py_accessories import get_best_match as a_get_best_match
 
 def main(args):
     fn          = args.filename

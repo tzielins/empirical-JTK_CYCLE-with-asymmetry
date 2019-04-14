@@ -1,8 +1,8 @@
 from distutils.core import setup
-from Cython.Build import cythonize
+#from Cython.Build import cythonize
 #import numpy as np
 
 
-setup(
-    ext_modules = cythonize('accessories.pyx'))
+setup()
+#setup(ext_modules = cythonize('accessories.pyx'))
 
