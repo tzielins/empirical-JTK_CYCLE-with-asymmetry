@@ -41,8 +41,7 @@ def main(args):
 def __create_parser__():
     p = argparse.ArgumentParser(
         description="Python script for running empirical JTK_CYCLE with asymmetry search as described in Hutchison, Maienschein-Cline, and Chiang et al. Improved statistical methods enable greater sensitivity in rhythm detection for genome-wide data, PLoS Computational Biology 2015 11(3): e1004094. This script was written by Alan L. Hutchison, alanlhutchison@uchicago.edu, Aaron R. Dinner Group, University of Chicago. This code has been updated to implement modeling the Tau statistics using a Gamma distribution to accelerate the calculation of p-values.",
-        epilog="Please contact the correpsonding author if you have any questions.",
-        version=VERSION
+        epilog="Please contact the correpsonding author if you have any questions."+"\nVersion: {}".format(VERSION)
         )
 
     analysis = p.add_argument_group(title="JTK_CYCLE analysis options")
