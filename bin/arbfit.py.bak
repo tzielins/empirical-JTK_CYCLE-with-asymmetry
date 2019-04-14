@@ -71,7 +71,7 @@ def poly(x,p,n):
         try:
             y+=np.power(x,i)*p[i]
         except FloatingPointError:
-            print(y)
+            print y
     return y
 
 def ipoly(x,p,n):
@@ -257,7 +257,7 @@ def fit(typ='line',x=None, y=None, yerr=None,p0=None):
     pcerror = m.perror * np.sqrt(m.fnorm / dof)
     par = [m.params,m.perror,pcerror]
     if(m.status <=0):
-        print('status = ', m.status)
+        print 'status = ', m.status
 
     #=========================================================================#
     #    Calculate goodness of fit and an easy to plot fitted data set
@@ -380,7 +380,7 @@ def arbFit(fct=line,x=None, y=None, yerr=None,p0=None):
         pcerror = m.perror * np.sqrt(m.fnorm / dof)
     par = [m.params,m.perror,pcerror]
     if(m.status <=0):
-        print('status = ', m.status)
+        print 'status = ', m.status
 
     #=========================================================================#
     #    Calculate goodness of fit and an easy to plot fitted data set
