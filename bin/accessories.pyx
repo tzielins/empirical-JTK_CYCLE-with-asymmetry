@@ -22,6 +22,8 @@ from scipy.stats import circmean as sscircmean
 from scipy.stats import circstd as sscircstd
 #from multiprocessing import Pool
 
+def tomcio2(x):
+    return x * 2
 
 def generate_base_reference(header,waveform="cosine",double period=24.,double phase=0.,double width=12.):
     """
@@ -128,13 +130,16 @@ def get_waveform_list(periods,phases,widths):
     cdef int lpha = len(phases)
     cdef int lwid = len(widths)
     #cdef np.ndarray
-    triples = np.zeros((int(lper*lpha*lwid/2),3))
+    triples = [] # np.zeros((1+int(lper*lpha*lwid/2),3))
+
+    # print("T{}".format((int(lper*lpha*lwid/2),3)))
     cdef int i,j,k
     cdef int period,phase,width,nadir
     k = 0
     for i,period in enumerate(periods):
         j = 0
-        pairs = [[0,0]]*int(lpha*lwid/2)
+        pairs = [] # [[0,0]]*(1+int(lpha*lwid/2))
+        # print("P{}".format(int(lpha*lwid/2)))
         phases1 = [phase for phase in phases if phase <=period]
         widths1 = [width for width in widths if width < period]
         master_pairs = [[phase,(phase+width)%period] for phase in phases1 for width in widths1]
@@ -146,13 +151,15 @@ def get_waveform_list(periods,phases,widths):
                         nadir = (phase+width)%period
                         pair = [nadir,phase]
                         if pair not in pairs and pair[::-1] in master_pairs:
-                            pairs[j] = [phase,nadir]
-                            triples[k] = np.array([period,phase,width])
-                            #print pairs[j]                    
+                            #pairs[j] = [phase,nadir]
+                            #triples[k] = np.array([period,phase,width])
+                            pairs.append([phase,nadir])
+                            triples.append(np.array([period,phase,width]))
+                            #print pairs[j]
                             j+=1
                             k+=1
     triples = np.array(triples,dtype=float)
-    triples = triples[:k,:]
+    #triples = triples[:k,:]
     return triples
 
 
@@ -193,6 +200,12 @@ def make_references(new_header,triples,waveform='cosine'):#,period,phase,width):
 
 def get_matches(kkey,triple,d_ref,new_header):
     cdef double period,phase,width,nadir,tau,p
+
+    #print("K {} {}".format(type(kkey), kkey))
+    #print("T {} {}".format(type(triple), triple))
+    #print("d {} {}".format(type(d_ref), d_ref))
+    #print("nh {} {}".format(type(new_header), new_header))
+    #raise Exception("On purpose");
 
     reference = d_ref[tuple(triple)]
     period,phase,width = triple
