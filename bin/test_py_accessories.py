@@ -10,7 +10,7 @@ def test_farctanh():
     assert farctanh(1) == 2.6466524123622457
     assert farctanh(-1) == -2.6466524123622457
     assert farctanh(0) == 0
-    assert farctanh(0.5) == 0.5493061443340548
+    assert abs(farctanh(0.5) - 0.5493061443340548) < 1E-6
 
 def test_periodic():
 
