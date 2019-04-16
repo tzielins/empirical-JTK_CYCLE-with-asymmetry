@@ -68,6 +68,92 @@ def test_kt():
     assert tau == -0.47140452079103173
     assert p_value == 0.24821309157521476
 
+def test_kt2():
+
+    x = [12, 2, 1, 12, 2]
+    y = [1, 4, 7, 1, 0]
+
+    tau, p_value = kt2(x, y)
+    assert tau == -0.47140452079103173
+    assert p_value == 0.24821309157521476
+
+def test_kt2_as_kt():
+
+    x = [12, 2, 1, 12, 2, 1, 2, 3, 9, 8, 7, 4, 5, 6]
+    y = [1,  4, 7,  1, 0, 9, 8, 7, 6, 1, 2, 3, 9, 8]
+
+    tau1, p_value1 = kt(x, y)
+    # -0.3859715121714741 0.05450177503280866
+    # print("{} {}".format(tau1, p_value1))
+    tau2, p_value2 = kt2(x, y)
+    assert tau1 == tau2
+    assert p_value1 == p_value2
+
+def test_mergeE():
+
+    x = [12, 2, 1, 12, 2, 1, 2, 3, 9, 8, 7, 4, 5, 6]
+    y = [1,  4, 7,  1, 0, 9, 8, 7, 6, 1, 2, 3, 9, 8]
+
+    perm = list(range(len(y)))
+    temp = list(range(len(y)))
+    offs = 0
+    length = 1
+
+    c = mergesortE(y,perm,offs,length,temp)
+    assert c == 0
+    expP = list(range(len(y)))
+    assert_array_equal(perm, expP)
+
+    perm = list(range(len(y)))
+    temp = list(range(len(y)))
+    offs = 0
+    length = 2
+
+    c = mergesortE(y,perm,offs,length,temp)
+    assert c == 0
+    expP = list(range(len(y)))
+    assert_array_equal(perm, expP)
+
+    perm = list(range(len(y)))
+    temp = list(range(len(y)))
+    offs = 2
+    length = 3
+
+    c = mergesortE(y,perm,offs,length,temp)
+    assert c == 3
+    expP = list(range(len(y)))
+    expP[2] = 4
+    expP[3] = 3
+    expP[4] = 2
+    assert_array_equal(perm, expP)
+
+    perm = list(range(len(y)))
+    temp = list(range(len(y)))
+    offs = 2
+    length = 5
+
+    c = mergesortE(y,perm,offs,length,temp)
+    assert c == 4
+    expP = list(range(len(y)))
+    expP[2] = 4
+    expP[3] = 3
+    expP[4] = 2
+    expP[5] = 6
+    expP[6] = 5
+    assert_array_equal(perm, expP)
+
+    perm = list(range(len(y)))
+    temp = list(range(len(y)))
+    offs = 0
+    length = len(y)
+
+    c = mergesortE(y,perm,offs,length,temp)
+    assert c == 33
+    expP = list(range(len(y)))
+    expP.sort(key=lambda a: (y[a]))
+    expP[0] = 4
+    assert_array_equal(perm, expP)
+
 def test_get_matches():
 
     kkey = [1, 4, 7, 1, 0]
