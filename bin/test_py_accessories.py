@@ -173,7 +173,7 @@ def test_get_matches():
     assert res[6] == 8
 
 def test_generate_base_reference():
-    header = [0., 2., 8., 16]
+    header = [0., 2., 8., 16, -1, 26]
     waveform = "cosine"
     period = 24.
     phase = 1.
@@ -181,13 +181,13 @@ def test_generate_base_reference():
 
     res = generate_base_reference(header,waveform,period,phase,width)
 
-    exp = [ 0.974928,  0.951057, -0.587785, -0.433884]
+    exp = [ 0.974928,  0.951057, -0.587785, -0.433884, 0.9009688679024187, 0.9510565162951536]
     assert_allclose(res, exp, rtol=1e-5, atol=0)
 
     waveform = 'trough'
     res2 = generate_base_reference(header,waveform,period,phase,width)
 
-    exp = [0.928571, 0.9     , 0.3     , 0.357143]
+    exp = [0.928571, 0.9     , 0.3     , 0.357143,  0.857143, 0.9]
     assert_allclose(res2, exp, rtol=1e-5, atol=0)
 
 
@@ -218,3 +218,11 @@ def test_get_waveform_list():
 
     res = get_waveform_list(periods,phases,widths)
     assert len(res) == 4
+
+    periods = [26]
+    phases = [1.0, 23.0, 22.0, -10.0]
+    widths = [1.0, 10.0]
+
+    res = get_waveform_list(periods,phases,widths)
+    print("{}".format(res))
+    assert len(res) == 8
