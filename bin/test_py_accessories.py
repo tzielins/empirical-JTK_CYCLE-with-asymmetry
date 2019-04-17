@@ -224,5 +224,22 @@ def test_get_waveform_list():
     widths = [1.0, 10.0]
 
     res = get_waveform_list(periods,phases,widths)
-    print("{}".format(res))
+    # print("{}".format(res))
     assert len(res) == 8
+
+
+    periods = [24]
+    phases = [0.0, 12.0]
+    widths = [12.0]
+
+    res = get_waveform_list(periods,phases,widths)
+    # print("{}".format(res))
+    assert len(res) == 1
+
+    periods = [24]
+    phases = [0., 2., 4., 6., 8., 10., 12., 14., 16., 18., 20., 22. ]
+    widths = [2., 4., 6., 8., 10., 12., 14., 16., 18., 20., 22. ]
+
+    res = get_waveform_list(periods,phases,widths)
+    # print("{}".format(res))
+    assert len(res) == 66

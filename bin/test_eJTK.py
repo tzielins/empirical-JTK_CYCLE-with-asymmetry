@@ -16,13 +16,15 @@ def test_analyse_serie():
              9.94917580124,	10.5906506647,	10.7983645048]
 
     triples = py_accessories.get_waveform_list(periods, phases, widths)
+    # print("s{} {}".format(len(triples), triples))
     dref = py_accessories.make_references(zts, triples, waveform)
 
     out = analyse_serie(serie, zts, waveform, triples, dref)
     assert out is not None
 
-    print("{}".format(out))
-    assert out[0] == 1
+    # print("{}".format(out))
+    # 0, 'cosine', 24.0, 0.0, 12.0, 10.006404787333333, 0.7494198620261449, 0.0, 12.0, 11.107065893, 8.90766774023, 2.1993981527699997, 1.246910663588942, 1.1596176411464219, 0.8519551539622261, 2.7301861885389218e-09, 1.8019228844356883e-07
+    assert out[0] == 0
     assert out[1] == 'cosine'
     assert out[2] == 24.0
     assert out[14] == 0.8519551539622261
