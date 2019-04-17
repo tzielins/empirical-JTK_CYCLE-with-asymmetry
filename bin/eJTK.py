@@ -120,8 +120,39 @@ def main(args):
         return fn_out,fn_out_null
     else:
         return fn_out,fn_null
-            
-            
+
+
+def analyse_set(series, zts, periods, phases, widths, waveform):
+
+    out_lines = [[]] * len(series)
+
+    triples = a_get_waveform_list(periods, phases, widths)
+
+    dref = a_make_references(zts, triples, waveform)
+
+    for i, serie in enumerate(series):
+        out_line = analyse_serie(serie, zts, waveform, triples, dref)
+        out_lines[i] = out_line
+
+    return out_lines
+
+def analyse_serie(serie, zts, waveform, triples, dref):
+
+
+    mmax, mmaxloc, mmin, mminloc, MAX_AMP = series_char(serie, zts)
+    sIQR_FC = IQR_FC(serie)
+    smean = series_mean(serie)
+    sstd = series_std(serie)
+    sFC = FC(serie)
+    best = a_get_best_match(serie, waveform, triples, dref, zts)
+    # print best
+    geneID, waveform, period, phase, nadir, maxloc, minloc, tau, p = best
+    out_line = [geneID, waveform, period, phase, nadir, smean, sstd, maxloc, minloc, mmax, mmin, MAX_AMP, sFC,
+                sIQR_FC, tau, p, p * len(triples)]
+
+    return out_line
+
+
 def set_fn_out(fn,prefix,fn_out):
     if fn_out == "DEFAULT":
         if ".txt" in fn:
