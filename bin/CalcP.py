@@ -121,6 +121,8 @@ def prepare(taus):
     yerr = [1e-5/(1*i+1)]*(len(intvalues)-sum(np.cumsum(intvalues)>0.9))+[1e-6/(1*i+1)]*sum(np.cumsum(intvalues)>0.9)
 
     a,b,c = ss.gamma.fit(taus)
+    # location coudl be fixed for java
+    #a, b, c = ss.gamma.fit(taus, floc=0.0)
     #a = np.mean(taus)**2/np.var(taus)
     #b = 1e-8
     #c = np.var(taus)/(np.mean(taus))
