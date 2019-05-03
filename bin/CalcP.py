@@ -95,7 +95,70 @@ def main(args):
     fn_out = fn_jtk.replace('.txt','_GammaP.txt')
     jtk.to_csv(fn_out,sep='\t',na_rep=np.nan)
 
-    
+
+# for testing the org input
+def main2(args):
+    # def calcP(fn_jtk,pkl):
+
+    # fn_ser = sys.argv[1]
+    fn_jtk = args.filename
+    fn_pkl = args.null
+    fit = args.fit
+
+    # ser = pd.read_table(fn_ser,index_col=0)
+    # NUM = ser.shape[1]
+    jtk = pd.read_table(fn_jtk, index_col='ID')
+
+    fn_jtk_core = fn_jtk.split('/')[-1] if '/' in fn_jtk else fn_jtk
+    fn_pkl_core = fn_pkl.split('/')[-1] if '/' in fn_pkl else fn_pkl
+    if '.pkl' in fn_pkl:
+        params, taus = pickle.load(open(fn_pkl, 'rb'))
+    else:
+        if 'boot' not in fn_pkl_core:
+            taus = pd.read_table(fn_pkl)['Tau']
+
+            keys, intvalues, yerr, p0, limit = prepare(taus)
+        else:
+            taus = pd.read_table(fn_pkl)['TauMean']
+            keys, intvalues, yerr, p0, limit = prepare(taus)
+        if fit:
+            for _ in range(2):
+                params = GammaFit(keys, intvalues, yerr, p0, limit)
+                p0 = params[0]
+    params = p0
+    gd = ss.gamma(params[0], params[1], params[2])
+
+    if 'boot' not in fn_jtk_core:
+        keys = jtk['Tau']
+    else:
+        keys = jtk['TauMean']
+    # print p0
+    keys = list(keys)
+    # if 'TauMean' in keys:
+    # print keys.index('TauMean')
+    # print
+    keys = np.array(list(keys), dtype=float)
+
+    empPs = empP(keys, taus)
+    jtk.loc[:, 'empP'] = empPs
+
+    #lets keep values unchanged for java testing
+    #if 'BF' in jtk.columns:
+    #    empPs = jtk[['BF', 'empP']].apply(min, axis=1)
+    #jtk.loc[:, 'empP'] = empPs
+
+    ps = gd.sf(keys)
+    jtk['GammaP'] = ps
+
+    #ps = jtk[['empP', 'GammaP']].apply(min, axis=1)
+    #jtk.loc[:, 'GammaP'] = ps
+
+    jtk['GammaBH'] = list(ssm.multipletests(ps, method='fdr_bh')[1])
+
+    fn_out = fn_jtk.replace('.txt', '_GammaPNotMin.txt')
+    jtk.to_csv(fn_out, sep='\t', na_rep=np.nan)
+
+
 def empP(taus,emps):
     taus = np.array(taus)
     emps = np.array(emps)

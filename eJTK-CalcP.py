@@ -33,7 +33,8 @@ def main(args):
     args.filename = fn_out
     args.null = fn_null_out
 
-    CalcP.main(args)
+    #CalcP.main(args)
+    CalcP.main2(args)
     
     
     
