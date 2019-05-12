@@ -243,3 +243,12 @@ def test_get_waveform_list():
     res = get_waveform_list(periods,phases,widths)
     # print("{}".format(res))
     assert len(res) == 66
+
+def test_ecdf():
+
+    import numpy as np
+    x = range(10)
+    nobs = len(x)
+    e = np.arange(1,nobs+1)/float(nobs)
+    print(e)
+    assert 10 == 11
