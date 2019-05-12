@@ -38,6 +38,13 @@ def main(args):
         for file in files:
             print("Analysing eJTK {}".format(file))
             args.filename = os.path.join(dir,file)
+            if (args.null is not None):
+                #print("{} {}".format(os.path.basename(args.null)[0:3],args.null))
+                if os.path.basename(args.null)[0:3] == os.path.basename(file)[0:3]:
+                    print("Reusing null file {}".format(args.null))
+                else:
+                    print("New null file")
+                    args.null = ""
             fn_out, fn_null_out = eJTK.main(args)
             args.filename = fn_out
             args.null = fn_null_out
