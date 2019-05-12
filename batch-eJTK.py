@@ -34,7 +34,7 @@ def main(args):
     if os.path.isdir(dir):
         files = list(filter(lambda f: f.endswith(".txt"), os.listdir(dir)))
         #files = list(map(lambda f: os.path.join(dir,f), files))
-        files = files[0:1]
+        #files = files[0:1]
         for file in files:
             print("Analysing eJTK {}".format(file))
             args.filename = os.path.join(dir,file)
