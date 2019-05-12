@@ -41,7 +41,7 @@ def main(args):
             if (args.null is not None):
                 #print("{} {}".format(os.path.basename(args.null)[0:3],args.null))
                 if os.path.basename(args.null)[0:3] == os.path.basename(file)[0:3]:
-                    print("Reusing null file {}".format(args.null))
+                    print("Reusing null file {}".format(os.path.basename(args.null)))
                 else:
                     print("New null file")
                     args.null = ""
