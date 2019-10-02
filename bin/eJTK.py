@@ -101,7 +101,7 @@ def main(args):
     if fnn=='':
         fn_out_null = fn_out.replace('jtkout','jtknull1000')
         #print len(header)
-        null_size = 1000
+        null_size = 1000000
         out_lines = [[]]*null_size
         for j in range(null_size):
             
